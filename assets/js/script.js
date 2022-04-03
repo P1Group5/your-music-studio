@@ -7,7 +7,36 @@
 // for a playlist 
 // OR we use a function that grabs the playlists made by spotify API
 
+// spotify api mvp get songs based on artist/genre
+var spotifyApi = function(){
+    var clientId = '76afce2e64f741928726265f5bfed54e';
+    var clientSecret = 'c34681d866cc4a47b7bd12fa8dc1d8fb';
+    var token = () => {
+        var result = fetch('https://accounts.spotify.com/api/token', {
+            method: 'POST',
+            header: {
+                'Content_Type' : 'application/x-www-form-urlencoded',
+                'Authorization' : 'Basic ' + btoa(clientId + ': ' + clientSecret)
+            },
+            body: 'grant_type=client_credentials'
+        });
+        var data = result.json();
+        return data.access_token;
+    }
+    var _getGenres = async (token) => {
+        var result = fetch('https://api.spotify.com/v1/browse/categories?locale=sv_US', {
+            method: 'GET',
+            headers: { 'Authorization' : 'Bearer ' + token}
+        }).then(function(response) {
+            response.json().then(function(data) {
+                console.log(data);
+            });
+        });
+    }
+};
 
+// find lyrics for whatever song is playing
+// set up local storage/api to save searches/most recent plays to display for user
 
 
 // create a function that will add a song to a playlist
